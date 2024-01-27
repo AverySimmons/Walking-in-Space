@@ -7,7 +7,7 @@ A short experimental game designed to impart a feeling rather then having comple
 
 
 ### Features
-- Unique Visuals  
+- **Unique Visuals**  
 Through a combination of a low pixel count and lighting
 
 
