@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://clvj5ksbh13v3"]
+
+[ext_resource type="Script" path="res://Helper/trail.gd" id="1_x86la"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iu5i5"]
+transparency = 1
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(0.34902, 0.34902, 0.34902, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_u6ibb"]
+material = SubResource("StandardMaterial3D_iu5i5")
+radius = 0.4
+height = 0.6
+
+[sub_resource type="Gradient" id="Gradient_57w7k"]
+offsets = PackedFloat32Array(0, 0.13245, 0.874172, 1)
+colors = PackedColorArray(0.176471, 0.176471, 0.176471, 0, 0.176471, 0.176471, 0.176471, 1, 0.176471, 0.176471, 0.176471, 1, 0.176471, 0.176471, 0.176471, 0)
+
+[node name="Trail" type="CPUParticles3D"]
+amount = 50
+mesh = SubResource("SphereMesh_u6ibb")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 1.0
+emission_ring_radius = 3.5
+emission_ring_inner_radius = 0.0
+gravity = Vector3(0, -0.2, 0)
+color = Color(0.32549, 0.32549, 0.32549, 1)
+color_ramp = SubResource("Gradient_57w7k")
+script = ExtResource("1_x86la")

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1uqkrdwg7ovw"]
+
+[ext_resource type="Script" path="res://Entities/Explosion.gd" id="1_4jwaa"]
+[ext_resource type="AudioStream" uid="uid://uek73s7vcayr" path="res://Audio/reversed-alien-explosion.mp3" id="2_3o2w7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p3naa"]
+cull_mode = 2
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 20.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_kadiq"]
+material = SubResource("StandardMaterial3D_p3naa")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3hrug"]
+
+[node name="Explosion" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_kadiq")
+script = ExtResource("1_4jwaa")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_3hrug")
+
+[node name="ExplosionSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_3o2w7")
+unit_size = 3000.0
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

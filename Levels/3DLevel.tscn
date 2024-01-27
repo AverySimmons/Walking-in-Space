@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://cymgov7nd3i2y"]
+
+[ext_resource type="Script" path="res://Levels/3DLevel.gd" id="1_vyndm"]
+[ext_resource type="PackedScene" uid="uid://ntuht3dwouh7" path="res://Entities/player_controller.tscn" id="2_i2csg"]
+[ext_resource type="AudioStream" uid="uid://b5dax5vs3scq2" path="res://Audio/Walkin' On The Sun - ending cut - revised.mp3" id="3_c1pq1"]
+[ext_resource type="PackedScene" uid="uid://2g0au4lw0p41" path="res://Helper/floor_segment.tscn" id="4_fe8ct"]
+
+[sub_resource type="Environment" id="Environment_w8vg8"]
+background_mode = 2
+glow_enabled = true
+glow_intensity = 0.5
+glow_blend_mode = 0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_f2x61"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ioll"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+emission_enabled = true
+emission = Color(0.741176, 0.988235, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_setfv"]
+material = SubResource("StandardMaterial3D_4ioll")
+radius = 10.0
+height = 20.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xqpcj"]
+size = Vector3(5, 1, 1)
+
+[node name="3DLevel" type="Node3D"]
+script = ExtResource("1_vyndm")
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="BaseFloorSegment" parent="Floor" instance=ExtResource("4_fe8ct")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -28)
+
+[node name="Planets" type="Node3D" parent="."]
+
+[node name="Trails" type="Node3D" parent="."]
+
+[node name="SpawnOrigin" type="Marker3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w8vg8")
+camera_attributes = SubResource("CameraAttributesPractical_f2x61")
+
+[node name="Player Controller" parent="." instance=ExtResource("2_i2csg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55, 0)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_c1pq1")
+volume_db = -40.0
+
+[node name="Stars" type="CPUParticles3D" parent="."]
+amount = 1000
+lifetime = 50.0
+preprocess = 50.0
+mesh = SubResource("SphereMesh_setfv")
+emission_shape = 3
+emission_box_extents = Vector3(5000, 5000, 5000)
+gravity = Vector3(0, 0, 0)
+
+[node name="ExtraWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.5)
+collision_layer = 5
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExtraWall"]
+shape = SubResource("BoxShape3D_xqpcj")

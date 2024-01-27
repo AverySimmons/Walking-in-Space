@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ntuht3dwouh7"]
+
+[ext_resource type="Script" path="res://Entities/Player Controller.gd" id="1_c66vx"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5cu3f"]
+height = 4.0
+
+[node name="Player Controller" type="CharacterBody3D"]
+rotation_edit_mode = 2
+collision_layer = 9
+collision_mask = 4
+script = ExtResource("1_c66vx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_5cu3f")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+current = true
+
+[node name="AudioListener3D" type="AudioListener3D" parent="."]

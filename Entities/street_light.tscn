@@ -1,0 +1,98 @@
+[gd_scene load_steps=13 format=3 uid="uid://7pks0ydrbt27"]
+
+[ext_resource type="Script" path="res://Entities/street_light.gd" id="1_ci5u8"]
+[ext_resource type="AudioStream" uid="uid://di47aur66vu2g" path="res://Audio/light-initial-flicke-revised.mp3" id="2_35p3c"]
+[ext_resource type="AudioStream" uid="uid://d3jroj3l06am2" path="res://Audio/light-buzz.mp3" id="3_nk2jr"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_l0va5"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 8.0
+
+[sub_resource type="TorusMesh" id="TorusMesh_gyleg"]
+inner_radius = 0.1
+outer_radius = 0.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rs4de"]
+radius = 0.15
+height = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew63n"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.141176)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o1wy5"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_g71u8"]
+material = SubResource("StandardMaterial3D_o1wy5")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1h5v"]
+emission_enabled = true
+emission = Color(1, 0.921569, 0.341176, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_be6rr"]
+material = SubResource("StandardMaterial3D_c1h5v")
+radius = 0.01
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ivj2o"]
+radius = 30.0
+
+[node name="StreetLight" type="Node3D"]
+script = ExtResource("1_ci5u8")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+mesh = SubResource("CylinderMesh_l0va5")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("TorusMesh_gyleg")
+
+[node name="CSGMesh3D3" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -0.3)
+mesh = SubResource("CapsuleMesh_rs4de")
+material = SubResource("StandardMaterial3D_ew63n")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CSGMesh3D3"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0.5, 0)
+light_color = Color(1, 0.921569, 0.341176, 1)
+light_energy = 5.0
+spot_range = 10.0
+spot_angle = 25.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CSGMesh3D3"]
+mesh = SubResource("SphereMesh_g71u8")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CSGMesh3D3/MeshInstance3D"]
+light_color = Color(1, 0.921569, 0.341176, 1)
+omni_range = 1.0
+
+[node name="GPUParticles3D" type="CPUParticles3D" parent="CSGMesh3D3/MeshInstance3D"]
+mesh = SubResource("CapsuleMesh_be6rr")
+direction = Vector3(0, -1, -0.35)
+spread = 25.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 5.0
+
+[node name="LightFlicker" type="AudioStreamPlayer3D" parent="CSGMesh3D3/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0.3)
+stream = ExtResource("2_35p3c")
+unit_size = 30.0
+
+[node name="LightBuzz" type="AudioStreamPlayer3D" parent="CSGMesh3D3/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0.3)
+stream = ExtResource("3_nk2jr")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_ivj2o")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
