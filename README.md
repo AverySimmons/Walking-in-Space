@@ -3,7 +3,7 @@
 
 ---
 
-**Tools Used:** Godot game engine, GDScript &nbsp;&nbsp;&nbsp;&nbsp; **Keywords:** 3D, Rotation using bases, Particle effects, Lighting
+**Tools Used:** Godot Game Engine, GDScript &nbsp;&nbsp;&nbsp;&nbsp; **Keywords:** 3D, Rotation using bases, Particle effects, Lighting
 
 ---
 
